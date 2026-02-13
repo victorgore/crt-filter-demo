@@ -30,5 +30,5 @@ Modern LCDs render this content with harsh pixels that were never meant to be se
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/crt-filter-demo.git
+git clone https://github.com/victorgore/crt-filter-demo.git
 cd crt-filter-demo
