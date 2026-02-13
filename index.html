@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRT Filter Emulator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-tv"></i> CRT Filter Emulator</h1>
+            <p class="subtitle">Experience vintage video with authentic CRT effects</p>
+            <p class="description">Upload any video to see how it would look on classic CRT displays. 
+            Perfect for retro games, old anime, and 80s/90s media.</p>
+        </header>
+
+        <main>
+            <!-- Upload Area -->
+            <div class="upload-section">
+                <div class="upload-area" id="dropZone">
+                    <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                    <h3>Drag & Drop Video File</h3>
+                    <p>MP4, WebM, MOV up to 50MB</p>
+                    <button class="btn-primary" id="uploadBtn">
+                        <i class="fas fa-folder-open"></i> Browse Files
+                    </button>
+                    <input type="file" id="fileInput" accept="video/*" hidden>
+                    <div class="sample-videos">
+                        <p>Or try a sample:</p>
+                        <button class="btn-sample" data-sample="retro">Retro Animation</button>
+                        <button class="btn-sample" data-sample="game">8-bit Game</button>
+                        <button class="btn-sample" data-sample="test">Test Pattern</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Display -->
+            <div class="video-section">
+                <div class="crt-screen">
+                    <div class="crt-frame">
+                        <div class="crt-glass">
+                            <canvas id="crtCanvas"></canvas>
+                            <video id="sourceVideo" crossorigin="anonymous" hidden></video>
+                        </div>
+                        <div class="crt-bezel">
+                            <div class="power-light"></div>
+                            <div class="brand-label">VIDEO•MASTER</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-controls">
+                    <button id="playBtn" class="btn-control"><i class="fas fa-play"></i> Play</button>
+                    <button id="pauseBtn" class="btn-control"><i class="fas fa-pause"></i> Pause</button>
+                    <input type="range" id="volume" min="0" max="1" step="0.1" value="1">
+                    <span class="time-display" id="timeDisplay">00:00 / 00:00</span>
+                </div>
+            </div>
+
+            <!-- CRT Controls -->
+            <div class="controls-section">
+                <div class="preset-buttons">
+                    <h3><i class="fas fa-bolt"></i> CRT Presets</h3>
+                    <div class="preset-grid">
+                        <button class="preset-btn active" data-preset="consumer">
+                            <i class="fas fa-tv"></i> Consumer TV
+                        </button>
+                        <button class="preset-btn" data-preset="pvm">
+                            <i class="fas fa-broadcast-tower"></i> Professional PVM
+                        </button>
+                        <button class="preset-btn" data-preset="arcade">
+                            <i class="fas fa-gamepad"></i> Arcade Monitor
+                        </button>
+                        <button class="preset-btn" data-preset="trinitron">
+                            <i class="fas fa-star"></i> Sony Trinitron
+                        </button>
+                        <button class="preset-btn" data-preset="vga">
+                            <i class="fas fa-desktop"></i> VGA Monitor
+                        </button>
+                    </div>
+                </div>
+
+                <div class="effect-controls">
+                    <h3><i class="fas fa-sliders-h"></i> Fine Tune</h3>
+                    <div class="slider-grid">
+                        <div class="slider-item">
+                            <label><i class="fas fa-grip-lines"></i> Scanlines</label>
+                            <input type="range" id="scanlines" min="0" max="1" step="0.05" value="0.8">
+                            <span id="scanlinesValue">0.8</span>
+                        </div>
+                        <div class="slider-item">
+                            <label><i class="fas fa-sun"></i> Phosphor Glow</label>
+                            <input type="range" id="glow" min="0" max="1" step="0.05" value="0.3">
+                            <span id="glowValue">0.3</span>
+                        </div>
+                        <div class="slider-item">
+                            <label><i class="fas fa-circle"></i> Curvature</label>
+                            <input type="range" id="curvature" min="0" max="0.8" step="0.05" value="0.4">
+                            <span id="curvatureValue">0.4</span>
+                        </div>
+                        <div class="slider-item">
+                            <label><i class="fas fa-tint"></i> Color Bleed</label>
+                            <input type="range" id="bleed" min="0" max="0.5" step="0.05" value="0.2">
+                            <span id="bleedValue">0.2</span>
+                        </div>
+                        <div class="slider-item">
+                            <label><i class="fas fa-film"></i> Aperture</label>
+                            <input type="range" id="aperture" min="0" max="1" step="0.05" value="0.5">
+                            <span id="apertureValue">0.5</span>
+                        </div>
+                        <div class="slider-item">
+                            <label><i class="fas fa-cloud"></i> Bloom</label>
+                            <input type="range" id="bloom" min="0" max="1" step="0.05" value="0.4">
+                            <span id="bloomValue">0.4</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h3><i class="fas fa-info-circle"></i> About CRT Effects</h3>
+                    <div class="info-content">
+                        <p><strong>Why old anime looks better on CRT:</strong> CRT displays naturally blur adjacent pixels, 
+                        smoothing out the harsh edges in low-resolution animation. The scanlines also add perceived detail.</p>
+                        <p><strong>Shadow Mask vs Aperture Grille:</strong> Consumer TVs use a shadow mask (dots), 
+                        while professional monitors use aperture grille (stripes) for sharper images.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>CRT Filter Emulator • Made for retro media preservation • <a href="#" id="githubLink"><i class="fab fa-github"></i> View on GitHub</a></p>
+        </footer>
+    </div>
+
+    <!-- Hidden sample videos -->
+    <video id="sampleRetro" hidden>
+        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" type="video/mp4">
+    </video>
+    <video id="sampleGame" hidden>
+        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" type="video/mp4">
+    </video>
+
+    <script src="src/main.js" type="module"></script>
+</body>
+</html>
